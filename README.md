@@ -5,11 +5,14 @@ hosted MrScraper MCP server for Claude.
 
 ## Add the marketplace
 
-Paste this GitHub repository URL into Claude's **Add marketplace** dialog:
+Paste this GitHub `owner/repo` value into Claude's **Add marketplace** dialog:
 
 ```text
-https://github.com/pray-mrscraper/mrscraper-claude-plugin
+pray-mrscraper/mrscraper-claude-plugin
 ```
+
+If the dialog specifically expects a Git repository URL, use
+`https://github.com/pray-mrscraper/mrscraper-claude-plugin.git`.
 
 From Claude Code CLI, add the marketplace and install the plugin:
 
