@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "mrscraper",
+  "displayName": "MrScraper",
+  "version": "0.1.0",
+  "description": "MrScraper MCP workflows for web fetching, structured extraction, Google discovery, and saved runs.",
+  "author": {
+    "name": "MrScraper",
+    "url": "https://github.com/mrscraper-com"
+  },
+  "homepage": "https://docs.mrscraper.com/docs/getting-started/mcp-server",
+  "repository": "https://github.com/pray-mrscraper/mrscraper-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "mrscraper",
+    "mcp",
+    "web-scraping",
+    "data-extraction",
+    "search",
+    "research"
+  ],
+  "skills": "./skills/",
+  "mcpServers": {
+    "mrscraper": {
+      "type": "http",
+      "url": "https://mcp.mrscraper.com/mcp"
+    }
+  }
+}
