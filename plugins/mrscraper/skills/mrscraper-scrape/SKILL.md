@@ -35,6 +35,10 @@ The default agent is general. For map, omit prompt, schema_prompt, and
 proxy_country. For general and listing, omit map-only controls. max_pages is
 accepted by listing and map but not general.
 
+agent selects the extraction workflow. mode independently selects the backend
+execution tier: Cheap or Super. Omit mode to preserve the backend default, and
+select Super only when the extraction requires the stronger mode.
+
 ## Step 2 — Define the Extraction
 
 Write a prompt that names the fields or records the user needs and preserves
@@ -45,6 +49,7 @@ Detail-page example:
     {
       "url": "https://example.com/product",
       "agent": "general",
+      "mode": "Super",
       "prompt": "Extract name, price, availability, description, and image URLs. Preserve source values and omit unavailable fields."
     }
 
@@ -97,6 +102,7 @@ Validate locally when strict compliance is required.
 | --- | --- | --- | --- |
 | url | required | Body url | Absolute HTTP or HTTPS starting URL. |
 | agent | general | Body agent | Select general, listing, or map. |
+| mode | service default | Body mode | Select Cheap or Super execution without changing the agent. |
 | prompt | required for general/listing | Body message | Describe the fields or records to extract. |
 | proxy_country | omitted | Body proxyCountry | Route general/listing through a country. |
 | max_pages | service default | Body maxPages | Bound listing or map pages. |

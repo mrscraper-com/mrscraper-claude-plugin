@@ -153,8 +153,22 @@ Single AI example:
     }
 
 Single AI optionally accepts max_depth, max_pages, limit, include_patterns,
-and exclude_patterns. When omitted, the tool uses 2, 50, 1000, an empty include
-expression, and an empty exclude expression respectively.
+exclude_patterns, proxy_country, max_retry, and timeout. Omit any control that
+the user did not request so the saved scraper or backend default remains in
+effect; the MCP server does not inject replacement defaults.
+
+Explicit-control example:
+
+    {
+      "target": "https://example.com/products",
+      "type": "ai",
+      "scraper_id": "SCRAPER_UUID",
+      "proxy_country": "ID",
+      "max_retry": 4,
+      "timeout": 120
+    }
+
+These controls are rejected by manual and bulk reruns.
 
 Bulk example:
 
@@ -187,6 +201,15 @@ Use results when the exact result UUID is unknown:
       "page": 1
     }
 
+Apply exact backend filters when the user knows identifying result fields:
+
+    {
+      "scraper_id": "SCRAPER_UUID",
+      "status": "Finished",
+      "type": "Rerun-AI",
+      "url": "https://example.com/product"
+    }
+
 | Input | Default | Use |
 | --- | --- | --- |
 | sort_field | updatedAt | Stored-result sort key. |
@@ -197,14 +220,21 @@ Use results when the exact result UUID is unknown:
 | date_range_column | omitted | Date column used by start_at and end_at. |
 | start_at | omitted | Inclusive ISO 8601 range start. |
 | end_at | omitted | Inclusive ISO 8601 range end. |
+| scraper_id | omitted | Exact saved scraper UUID filter. |
+| status | omitted | Exact Draft, Finished, Running, Failed, or Cancelled filter. |
+| type | omitted | Exact result type filter, such as AI or Rerun-AI. |
+| url | omitted | Exact stored target URL filter. |
 
 Use result when the UUID is known:
 
     {
-      "result_id": "RESULT_UUID"
+      "result_id": "RESULT_UUID",
+      "include_html": false
     }
 
 A result_id may also be the bulkResultId returned by an asynchronous rerun.
+include_html defaults to true. Set it to false for a smaller response while
+polling status or when extracted data is sufficient.
 
 ## Step 7 — Review Account Usage
 

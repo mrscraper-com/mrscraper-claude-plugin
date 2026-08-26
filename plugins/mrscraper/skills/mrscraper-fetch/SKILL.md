@@ -1,7 +1,7 @@
 ---
 name: mrscraper-fetch
 description: |
-  Fetch HTML from a known public URL with MrScraper, with optional browser rendering, locale routing, selector waits, homepage navigation, resource blocking, retries, token limits, and page-load timeouts. Use when the user wants to read, summarize, cite, inspect, archive, or flexibly analyze a page. Use mrscraper-scrape for backend LLM extraction of defined fields or structured records, and mrscraper-serp when no target URL is known.
+  Fetch HTML from a known public URL with MrScraper, with optional browser rendering, real-device Super Mode, locale routing, selector waits, homepage navigation, resource blocking, retries, token limits, and page-load timeouts. Use when the user wants to read, summarize, cite, inspect, archive, or flexibly analyze a page. Use mrscraper-scrape for backend LLM extraction of defined fields or structured records, and mrscraper-serp when no target URL is known.
 ---
 
 # Fetch Page Content with MrScraper MCP
@@ -75,6 +75,18 @@ Use browser rendering when the page depends on JavaScript:
       "browser_rendering": true
     }
 
+If ordinary browser rendering still cannot load the page, route it through a
+real device with Super Mode:
+
+    {
+      "url": "https://example.com/products",
+      "browser_rendering": true,
+      "super_mode": true
+    }
+
+Use super_mode only after ordinary browser rendering fails. It requires
+browser_rendering=true.
+
 Wait for delayed content with a CSS selector:
 
     {
@@ -111,6 +123,7 @@ Bound resource use for a browser-rendered page:
 | --- | --- | --- | --- |
 | url | required | Query url | Absolute HTTP or HTTPS target URL. |
 | browser_rendering | false | Query browserRendering | Execute page JavaScript. |
+| super_mode | false | Query super | Route browser rendering through a real device; requires browser_rendering=true. |
 | geo_code | omitted | Query geoCode | Route through an ISO 3166-1 alpha-2 country. |
 | wait_for_selector | omitted | Query waitForSelector | Wait for a CSS selector; requires browser_rendering=true. |
 | home_page | false | Query homePage | Visit the site root before the target page. |
@@ -129,9 +142,10 @@ incomplete or missing dynamic content:
 
 1. Inspect the initial response.
 2. Retry once with browser_rendering=true when JavaScript is relevant.
-3. Add wait_for_selector, geo_code, or home_page only when the target requires
+3. Add super_mode only when ordinary browser rendering still fails.
+4. Add wait_for_selector, geo_code, or home_page only when the target requires
    that behavior.
-4. Inspect the revised result before considering another retry.
+5. Inspect the revised result before considering another retry.
 
 Do not repeat identical calls. Treat wait_for_selector as a CSS selector, not a
 duration. Browser rendering loads a page; it does not click controls, submit
