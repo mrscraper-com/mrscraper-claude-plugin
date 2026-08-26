@@ -2,14 +2,15 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mrscraper",
   "displayName": "MrScraper",
-  "version": "0.1.1",
-  "description": "MrScraper MCP workflows for web fetching, structured extraction, Google discovery, and saved runs.",
+  "version": "0.1.2",
+  "description": "Connect Claude to MrScraper for raw page fetching, managed extraction, Google discovery, and saved scraper workflows.",
   "author": {
     "name": "MrScraper",
-    "url": "https://github.com/mrscraper-com"
+    "email": "support@mrscraper.com",
+    "url": "https://mrscraper.com"
   },
   "homepage": "https://docs.mrscraper.com/docs/getting-started/mcp-server",
-  "repository": "https://github.com/pray-mrscraper/mrscraper-claude-plugin",
+  "repository": "https://github.com/mrscraper-com/mrscraper-claude-plugin",
   "license": "MIT",
   "keywords": [
     "mrscraper",

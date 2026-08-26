@@ -1,27 +1,36 @@
 ---
 name: mrscraper-scrape
 description: |
-  Extract structured data from an authorized public URL with MrScraper using the general, listing, or map agent. The general and listing modes use an LLM to read page HTML and produce structured output, so prefer mrscraper-fetch when the current agent can work directly from the HTML more quickly or flexibly. Use scrape for defined fields, repeated records, paginated listings, schema-shaped JSON, reusable extraction configurations, or bounded site URL discovery. Use mrscraper-serp when no target URL is known.
+  Run MrScraper's general, listing, or map agents for managed structured extraction or bounded URL discovery within a known site. Use when managed output is explicitly requested or justified after source-page inspection; use mrscraper-fetch for initial acquisition of known pages and mrscraper-serp when no starting URL is known.
 ---
 
 # Extract Structured Data with MrScraper MCP
 
-Use the scrape tool supplied by the MrScraper MCP server when the user wants
-defined fields, records, or site URLs from a known page or website. Use
+Do not use scrape for the first exploration of a known page. Start with
+[mrscraper-fetch](../mrscraper-fetch/SKILL.md), inspect the complete raw
+response, and prefer local analysis or a reusable extractor. Use scrape when
+the user explicitly wants MrScraper-managed extraction, or after the agent
+understands the website and has defined a stable output schema. Use
 [mrscraper](../mrscraper/SKILL.md) for connection troubleshooting, saved runs,
 account status, or broader routing.
 
-For general and listing, MrScraper retrieves the page HTML and asks an LLM to
-interpret it according to prompt. This adds model-processing time and can
-narrow the result to what the prompt requested. Prefer
-[mrscraper-fetch](../mrscraper-fetch/SKILL.md) when the current agent can read
-the HTML and perform the requested summarization, filtering, transformation, or
-ad hoc analysis itself. Fetch is usually faster, preserves the full source for
-follow-up questions, and avoids an extra extraction-model pass.
+For general and listing, MrScraper retrieves page HTML and asks a backend LLM to
+interpret it according to prompt. This adds model-processing time, can narrow
+the result to the requested fields, and repeats model work across many pages.
 
-Choose scrape when backend structured extraction is valuable: the user needs
-defined or repeated records, listing pagination, schema guidance, map
-discovery, or a saved scraper that can be rerun.
+Before using general or listing, confirm all of the following:
+
+1. The target or representative pages have already been fetched and inspected.
+2. The site structure and required output fields are understood.
+3. A stable output schema has been defined.
+4. Managed extraction still offers a concrete benefit over local code, or the
+   user explicitly requested it.
+
+If these conditions are not met, return to fetch. Requiring JSON, a table, or
+named fields is not by itself a reason to call scrape. For large same-layout
+sets—even roughly 100 pages—safe concurrent fetches plus one reusable local
+extractor are often faster and preserve every raw response. The map agent is
+separate URL discovery functionality and does not require an extraction schema.
 
 ## Step 1 — Choose an Agent
 
@@ -35,37 +44,43 @@ The default agent is general. For map, omit prompt, schema_prompt, and
 proxy_country. For general and listing, omit map-only controls. max_pages is
 accepted by listing and map but not general.
 
+agent selects the extraction workflow. mode independently selects the backend
+execution tier: Cheap or Super. Omit mode to preserve the backend default, and
+select Super only when the extraction requires the stronger mode.
+
 ## Step 2 — Define the Extraction
 
-Write a prompt that names the fields or records the user needs and preserves
-source values. Do not ask the model to infer unavailable values.
+The examples below assume the decision gate above has been satisfied. Write a
+prompt from the already-understood page structure and output schema, preserve
+source values, and do not ask the model to infer unavailable values.
 
 Detail-page example:
 
     {
-      "url": "https://example.com/product",
+      "url": "https://www.scrapethissite.com/pages/simple/",
       "agent": "general",
-      "prompt": "Extract name, price, availability, description, and image URLs. Preserve source values and omit unavailable fields."
+      "mode": "Super",
+      "prompt": "Extract each country's name, capital, population, and area. Preserve source values and omit unavailable fields."
     }
 
 Repeated-listing example:
 
     {
-      "url": "https://example.com/products",
+      "url": "https://www.scrapethissite.com/pages/forms/?page_num=1",
       "agent": "listing",
-      "prompt": "Extract every product's name, price, availability, and URL.",
+      "prompt": "Extract each hockey team's name, year, wins, losses, and win percentage.",
       "max_pages": 5
     }
 
 Site-map example:
 
     {
-      "url": "https://example.com",
+      "url": "https://www.scrapethissite.com/",
       "agent": "map",
       "max_depth": 2,
       "max_pages": 50,
       "limit": 1000,
-      "include_patterns": "/products/"
+      "include_patterns": "/pages/"
     }
 
 ## Step 3 — Add Shape Guidance When Useful
@@ -75,14 +90,24 @@ local JSON Schema file, read and parse it with local file tools, confirm its
 root is an object, and pass that object:
 
     {
-      "url": "https://example.com/product",
+      "url": "https://www.scrapethissite.com/pages/simple/",
       "agent": "general",
-      "prompt": "Extract the product details.",
+      "prompt": "Extract every country's name, capital, population, and area.",
       "schema_prompt": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "price": { "type": "string" }
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "capital": { "type": "string" },
+                "population": { "type": "string" },
+                "area": { "type": "string" }
+              }
+            }
+          }
         }
       }
     }
@@ -97,6 +122,7 @@ Validate locally when strict compliance is required.
 | --- | --- | --- | --- |
 | url | required | Body url | Absolute HTTP or HTTPS starting URL. |
 | agent | general | Body agent | Select general, listing, or map. |
+| mode | service default | Body mode | Select Cheap or Super execution without changing the agent. |
 | prompt | required for general/listing | Body message | Describe the fields or records to extract. |
 | proxy_country | omitted | Body proxyCountry | Route general/listing through a country. |
 | max_pages | service default | Body maxPages | Bound listing or map pages. |
@@ -153,7 +179,7 @@ Use the MrScraper rerun tool to apply the saved configuration to the same or
 another URL:
 
     {
-      "target": "https://example.com/another-product",
+      "target": "https://www.scrapethissite.com/pages/forms/?page_num=2",
       "type": "ai",
       "scraper_id": "SCRAPER_UUID"
     }
