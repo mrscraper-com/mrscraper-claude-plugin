@@ -20,7 +20,8 @@ fetch calls MrScraper's
 Browser rendering executes page JavaScript, locale routing selects a
 geo-specific country, selector waits allow delayed content to appear, and
 homepage navigation establishes a normal navigation path before loading the
-target.
+target. Super Mode selects real-device routing independently of browser
+rendering.
 
 Use fetch only for content the user is authorized to access and in accordance
 with the site's requirements. Page-loading controls can help render a site that
@@ -92,6 +93,16 @@ data. Non-JSON page bodies are preserved exactly.
 
 ## Step 3 — Choose Page-Loading Options
 
+browser_rendering and super_mode are independent axes. All four combinations
+can return different content or failures for the same URL:
+
+| browser_rendering | super_mode | Loading path |
+| --- | --- | --- |
+| false | false | Standard routing with the non-browser loader. |
+| true | false | Standard routing with browser loading and JavaScript. |
+| false | true | Real-device routing with the non-browser loader. |
+| true | true | Real-device routing with browser loading and JavaScript. |
+
 Use browser rendering when the page depends on JavaScript:
 
     {
@@ -99,8 +110,15 @@ Use browser rendering when the page depends on JavaScript:
       "browser_rendering": true
     }
 
-If ordinary browser rendering still cannot load the page, route it through a
-real device with Super Mode:
+Use Super Mode with the non-browser loader when routing may be the problem but
+browser loading is unnecessary or returns a worse response:
+
+    {
+      "url": "https://www.scrapethissite.com/pages/simple/",
+      "super_mode": true
+    }
+
+Use both controls for real-device browser loading:
 
     {
       "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
@@ -108,8 +126,9 @@ real device with Super Mode:
       "super_mode": true
     }
 
-Use super_mode only after ordinary browser rendering fails. It requires
-browser_rendering=true.
+Browser rendering is not a strictly stronger mode. Some sites fail or return
+worse content with browser_rendering=true but load successfully when it is
+false. Super Mode does not enable browser rendering.
 
 Wait for delayed content with a CSS selector:
 
@@ -147,7 +166,7 @@ Bound resource use for a browser-rendered page:
 | --- | --- | --- | --- |
 | url | required | Query url | Absolute HTTP or HTTPS target URL. |
 | browser_rendering | false | Query browserRendering | Execute page JavaScript. |
-| super_mode | false | Query super | Route browser rendering through a real device; requires browser_rendering=true. |
+| super_mode | false | Query super | Select real-device routing independently of browser rendering. |
 | geo_code | omitted | Query geoCode | Route through an ISO 3166-1 alpha-2 country. |
 | wait_for_selector | omitted | Query waitForSelector | Wait for a CSS selector; requires browser_rendering=true. |
 | home_page | false | Query homePage | Visit the site root before the target page. |
@@ -161,19 +180,24 @@ never a tool input.
 
 ## Step 4 — Inspect and Retry Deliberately
 
-Start with the simplest call that can load the page. If the response is
-incomplete or missing dynamic content:
+Start with both controls false unless the task already establishes a
+requirement. If the response fails, is blocked, incomplete, or missing dynamic
+content:
 
 1. Inspect the initial response.
-2. Retry once with browser_rendering=true when JavaScript is relevant.
-3. Add super_mode only when ordinary browser rendering still fails.
-4. Add wait_for_selector, geo_code, or home_page only when the target requires
-   that behavior.
-5. Inspect the revised result before considering another retry.
+2. Change one axis at a time: browser_rendering for JavaScript, or super_mode
+   when routing may be the problem.
+3. If browser loading fails or returns worse content, retry the same super_mode
+   value with browser_rendering=false.
+4. Try the remaining untested combinations when the response is still unusable.
+5. Add wait_for_selector, geo_code, or home_page only when evidence shows that
+   the target requires it.
+6. Stop after a usable response unless the user requests a comparison.
 
-Do not repeat identical calls. Treat wait_for_selector as a CSS selector, not a
-duration. Browser rendering loads a page; it does not click controls, submit
-forms, or provide an authenticated interactive browser session.
+Do not repeat an identical combination. Treat wait_for_selector as a CSS
+selector, not a duration. Browser rendering loads a page; it does not click
+controls, submit forms, or provide an authenticated interactive browser
+session.
 
 ## Step 5 — Deliver the Result
 
