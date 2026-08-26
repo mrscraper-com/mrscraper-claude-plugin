@@ -3,17 +3,19 @@
   "name": "mrscraper-claude",
   "owner": {
     "name": "MrScraper",
+    "email": "support@mrscraper.com",
     "url": "https://github.com/mrscraper-com"
   },
-  "description": "MrScraper MCP skills and tools for Claude.",
+  "description": "Fetch and preserve page content, extract structured web data, discover sources, and work with saved MrScraper runs from Claude.",
   "plugins": [
     {
       "name": "mrscraper",
       "source": "./plugins/mrscraper",
-      "description": "Fetch page content, extract structured web data, discover sources through Google, and work with saved MrScraper runs.",
-      "version": "0.1.1",
+      "description": "Connect Claude to MrScraper for raw page fetching, managed extraction, Google discovery, and saved scraper workflows.",
       "author": {
-        "name": "MrScraper"
+        "name": "MrScraper",
+        "email": "support@mrscraper.com",
+        "url": "https://mrscraper.com"
       },
       "homepage": "https://docs.mrscraper.com/docs/getting-started/mcp-server",
       "repository": "https://github.com/mrscraper-com/mrscraper-claude-plugin",

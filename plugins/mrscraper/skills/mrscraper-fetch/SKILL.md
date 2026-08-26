@@ -1,13 +1,15 @@
 ---
 name: mrscraper-fetch
 description: |
-  Fetch HTML from a known public URL with MrScraper, with optional browser rendering, real-device Super Mode, locale routing, selector waits, homepage navigation, resource blocking, retries, token limits, and page-load timeouts. Use when the user wants to read, summarize, cite, inspect, archive, or flexibly analyze a page. Use mrscraper-scrape for backend LLM extraction of defined fields or structured records, and mrscraper-serp when no target URL is known.
+  Retrieve raw HTML from a known public URL with MrScraper. Use for reading, inspecting, summarizing, archiving, or analyzing a page, and as the default content-acquisition step before agent-led or local extraction. Supports browser rendering, real-device Super Mode, and page-load controls; use mrscraper-serp when no target URL is known.
 ---
 
 # Fetch Page Content with MrScraper MCP
 
-Use the fetch tool supplied by the MrScraper MCP server when the user already
-has a URL and needs that page's response. Use
+Use the fetch tool supplied by the MrScraper MCP server for the first exploration
+whenever the user already has a public URL. Keep using the raw response for
+summarization, comparison, transformation, and structured output instead of
+handing the page to another LLM by default. Use
 [mrscraper](../mrscraper/SKILL.md) for connection and authentication checks,
 saved runs, account status, or broader routing.
 
@@ -20,7 +22,9 @@ geo-specific country, selector waits allow delayed content to appear, and
 homepage navigation establishes a normal navigation path before loading the
 target.
 
-Page-loading controls can help render a site that does not work with a basic request.
+Use fetch only for content the user is authorized to access and in accordance
+with the site's requirements. Page-loading controls can help render a site that
+does not work with a basic request.
 
 Start with the URL alone and add only the controls the target needs. Plan-token
 usage is based on runtime and bandwidth: one token per 30 seconds and one token
@@ -35,14 +39,34 @@ maintained calculation.
 
 Confirm the target URL and what the user wants:
 
+- Preserve a raw source before extraction, transformation, or comparison.
 - Read, summarize, cite, or inspect the page.
 - Check whether specific text appears.
 - Archive the response.
+- Produce fields, JSON, tables, or other structured output with local logic.
+- Verify or supplement a managed scrape or saved result.
 - Load JavaScript-rendered or geo-sensitive content.
 
-Use [mrscraper-scrape](../mrscraper-scrape/SKILL.md) when the requested outcome
-needs backend extraction of a structured record or set of fields. Use
-[mrscraper-serp](../mrscraper-serp/SKILL.md) when discovery must happen first.
+Do not call scrape merely because the requested output is structured. Fetch the
+page, understand its layout, and transform the saved raw content locally. Use
+[mrscraper-scrape](../mrscraper-scrape/SKILL.md) only when the user explicitly
+requests managed extraction, or after fetch-led exploration has produced a
+stable output schema and managed extraction still offers a concrete benefit.
+Use [mrscraper-serp](../mrscraper-serp/SKILL.md) when discovery must happen
+first.
+
+### Prefer reusable local extraction
+
+When many pages share a layout:
+
+1. Fetch representative pages and inspect their raw content.
+2. Define one local extraction schema and implementation.
+3. Fetch the remaining pages, in parallel when safe and proportional.
+4. Apply the same local extractor to every saved response.
+
+For roughly 100 same-layout pages, concurrent fetches followed by one local
+batch extraction are often faster than 100 separate backend-LLM extractions.
+This also preserves every raw input for later recovery or schema changes.
 
 ## Step 2 — Run the Fetch
 
@@ -50,7 +74,7 @@ The client may namespace the tool name; select fetch from the MrScraper MCP
 provider. Start with one call containing only the required URL:
 
     {
-      "url": "https://example.com"
+      "url": "https://www.scrapethissite.com/pages/simple/"
     }
 
 The result is available in MCP structuredContent and as formatted JSON text:
@@ -71,7 +95,7 @@ data. Non-JSON page bodies are preserved exactly.
 Use browser rendering when the page depends on JavaScript:
 
     {
-      "url": "https://example.com/products",
+      "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
       "browser_rendering": true
     }
 
@@ -79,7 +103,7 @@ If ordinary browser rendering still cannot load the page, route it through a
 real device with Super Mode:
 
     {
-      "url": "https://example.com/products",
+      "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
       "browser_rendering": true,
       "super_mode": true
     }
@@ -90,15 +114,15 @@ browser_rendering=true.
 Wait for delayed content with a CSS selector:
 
     {
-      "url": "https://example.com/products",
+      "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
       "browser_rendering": true,
-      "wait_for_selector": ".product-card"
+      "wait_for_selector": ".film"
     }
 
 Use geographic routing or homepage navigation when the target requires it:
 
     {
-      "url": "https://example.com/product",
+      "url": "https://www.scrapethissite.com/pages/simple/",
       "browser_rendering": true,
       "geo_code": "ID",
       "home_page": true
@@ -109,7 +133,7 @@ Use geographic routing for geo-specific content.
 Bound resource use for a browser-rendered page:
 
     {
-      "url": "https://example.com",
+      "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
       "browser_rendering": true,
       "block_resources": true,
       "max_retries": 3,
@@ -157,3 +181,9 @@ Answer the user's request from data. Keep the full envelope when headers or
 diagnostics matter. When the user requests an archive, save the successful
 response or its data value with the environment's local file-writing
 capability; fetch itself has no output-path input.
+
+Keep fetched content as the source of truth for later steps. Build summaries,
+tables, JSON transformations, and extraction scripts from that raw content. If
+fetch fails and another MrScraper workflow can still complete the task, disclose
+that the raw response was not preserved and do not present the narrower result
+as exhaustive source content.
