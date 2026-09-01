@@ -22,7 +22,7 @@ jobs:
           node-version: 22
 
       - name: Install Claude Code
-        run: npm install --global @anthropic-ai/claude-code@2.1.246
+        run: npm install --global @anthropic-ai/claude-code@2.1.252
 
       - name: Validate marketplace
         run: claude plugin validate . --strict

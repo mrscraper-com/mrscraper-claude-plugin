@@ -10,6 +10,8 @@ help Claude choose the right workflow and preserve raw page content.
 - The hosted Streamable HTTP endpoint at `https://mcp.mrscraper.com/mcp`.
 - OAuth 2.1 authentication through Claude; no credential is stored in this
   repository.
+- OAuth access pinned to the `scrape:read`, `scrape:write`, and `account:read`
+  scopes advertised by the hosted endpoint.
 - A fetch-first workflow that keeps raw page responses available for analysis,
   verification, and follow-up transformations.
 - Managed extraction, site mapping, Google SERP discovery, saved reruns, and
