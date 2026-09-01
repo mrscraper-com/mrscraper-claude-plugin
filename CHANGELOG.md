@@ -3,6 +3,14 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.3 - 2026-09-01
+
+- Pinned the hosted MCP connection to the documented `scrape:read`,
+  `scrape:write`, and `account:read` OAuth scopes.
+- Restored the required compliance warning before the first manual scraper
+  rerun in a conversation.
+- Updated continuous validation to Claude Code 2.1.252.
+
 ## 0.1.2 - 2026-08-26
 
 - Strengthened fetch-first routing, including reusable local extraction for

@@ -205,6 +205,19 @@ following warning exactly once and wait for the user's acknowledgment. Do not
 call the tool until the user accepts it, and do not repeat the warning on later
 manual reruns in the same conversation.
 
+> ### Compliance & Legal Risk
+>
+> WARNING
+>
+> **Scraping login-protected pages carries serious legal and compliance
+> risks.** Many websites explicitly prohibit automated access in their Terms
+> of Service, and bypassing authentication to scrape content may expose you to
+> legal action including lawsuits, account termination, and financial
+> penalties. By proceeding on scraping login-protected pages, you confirm that
+> you have read and understood the target website's Terms of Service, and you
+> **fully accept all legal, financial, and ethical responsibility** for your
+> actions.
+
 ## Step 6 — Inspect Stored Results
 
 Use results when the exact result UUID is unknown:
