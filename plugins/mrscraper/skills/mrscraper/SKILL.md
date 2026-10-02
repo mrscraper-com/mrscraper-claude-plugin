@@ -194,6 +194,15 @@ Bulk example:
       "id": "SCRAPER_UUID"
     }
 
+Manual example, after the user accepts the warning below:
+
+    {
+      "target": "https://www.scrapethissite.com/pages/simple/",
+      "type": "manual",
+      "scraper_id": "SCRAPER_UUID",
+      "acknowledged": true
+    }
+
 Bulk rerun submits one asynchronous backend job. Retain
 structuredContent.data.data.bulkResultId and pass it to result as result_id.
 Inspect that record until it reaches a terminal state when the user asked to
@@ -203,7 +212,9 @@ running.
 Before the first rerun call with type=manual in a conversation, show the
 following warning exactly once and wait for the user's acknowledgment. Do not
 call the tool until the user accepts it, and do not repeat the warning on later
-manual reruns in the same conversation.
+manual reruns in the same conversation. After the user accepts, pass
+acknowledged=true on every manual rerun in that conversation; rerun refuses a
+manual rerun without it and returns this warning instead.
 
 > ### Compliance & Legal Risk
 >
