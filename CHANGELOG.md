@@ -3,6 +3,11 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.4 - 2026-10-02
+
+- Passed `acknowledged=true` on manual reruns after the user accepts the
+  compliance warning, which the MrScraper MCP server now requires.
+
 ## 0.1.3 - 2026-09-01
 
 - Pinned the hosted MCP connection to the documented `scrape:read`,

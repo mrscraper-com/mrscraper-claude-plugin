@@ -27,20 +27,21 @@ Use this checklist for a public MrScraper Claude plugin release.
 
 ## Submission details
 
-Keep these values ready for Anthropic's community marketplace form:
+Keep these values ready for the developer portal:
 
 | Field | Value |
 | --- | --- |
 | Plugin name | `mrscraper` |
 | Display name | `MrScraper` |
 | Repository | `https://github.com/mrscraper-com/mrscraper-claude-plugin` |
-| Plugin directory | `plugins/mrscraper` |
+| Plugin path | `plugins/mrscraper` |
 | Homepage | `https://docs.mrscraper.com/docs/getting-started/mcp-server` |
 | Support | `support@mrscraper.com` |
 | Privacy policy | `https://mrscraper.com/privacy-policy` |
 | Acceptable use policy | `https://mrscraper.com/acceptable-use-policy` |
 | MCP endpoint | `https://mcp.mrscraper.com/mcp` |
-| Authentication | OAuth 2.1 browser authorization |
+| Authentication | OAuth 2.1 with dynamic client registration and client ID metadata documents |
+| Icon | `plugins/mrscraper/assets/mrscraper-plugin-logo.png` (512×512 PNG) |
 
 Suggested summary:
 
@@ -62,11 +63,45 @@ Fetch https://www.scrapethissite.com/pages/simple/ and summarize the page.
 
 ## Submit to Anthropic
 
-After the release commit is on the public `main` branch, use Anthropic's
-[Console submission form](https://platform.claude.com/plugins/submit). A Team
-or Enterprise organization owner or directory manager can instead use the
-[Claude organization form](https://claude.ai/admin-settings/directory/submissions/plugins/new).
+Anthropic's directory and its `claude-plugins-official` and `claude-community`
+marketplaces take submissions only through the
+[developer portal](https://claude.ai/directory/manage), launched on
+2026-09-25. The earlier Console form (`platform.claude.com/plugins/submit`) is
+[no longer supported](https://claude.com/docs/directory/publish#move-an-earlier-submission-to-the-developer-portal),
+and pull requests to `anthropics/claude-plugins-community` are closed
+automatically. Submitting requires a paid claude.ai plan: on Team, an Owner;
+on Enterprise, an Owner or a member with the Directory permission.
 
-Anthropic reviews third-party plugins for the `claude-community` marketplace.
-Approved entries are pinned to a repository commit, and the public catalog may
-take until its next nightly sync to show the plugin.
+1. Retire any Console submission. In
+   [Plugin submissions](https://platform.claude.com/plugins/submissions),
+   select **Withdraw**; if there is no **Withdraw** button, email
+   `directory@anthropic.com` to have it moved to the portal. Until then, the
+   portal can refuse this repository and folder with **Already submitted by
+   another organization**.
+2. Submit `https://mcp.mrscraper.com/mcp` as an **MCP connector**. Connector
+   submissions are scanned automatically and listed as Community connectors
+   by default. The server ships MCP App widgets, so prepare 3–5 PNG carousel
+   screenshots at least 1000px wide, cropped to the widget, with each prompt
+   supplied separately. Reviewers also need credentials for a populated test
+   account. See
+   [Submit a connector](https://claude.com/docs/connectors/building/submission).
+3. From the same organization, submit a **Plugin bundle**. Connect a GitHub
+   account that can push to this repository, enter the repository and plugin
+   path above, select **Validate**, and fix every **Blocking** finding. Keep
+   the GitHub push webhook; setting it up needs repository admin access. See
+   [Submit your plugin](https://claude.com/docs/plugins/submit).
+4. Pair the connector and plugin listings.
+5. Every new plugin listing gets a human review. When a version passes, select
+   **Publish** on the plugin's page; by default, that asks an Anthropic
+   reviewer to publish it. The plugin is installable only once its status is
+   **Published**, not **Approved**. See
+   [Track your directory submission](https://claude.com/docs/directory/submission-status).
+
+For a stuck plugin, select **Get help** or **Contact Anthropic** in the plugin's
+menu in the portal, or email `directory@anthropic.com`. For the connector,
+email `mcp-review@anthropic.com`.
+
+The `claude-community` mirror on GitHub syncs nightly and pins each entry to a
+commit, so Claude Code's catalog can lag the directory. Until the listing is
+live, users can install from this repository's own marketplace, which
+Anthropic doesn't review; see [README.md](README.md#install).
