@@ -20,7 +20,8 @@ Use this checklist for a public MrScraper Claude plugin release.
 
 - [ ] Confirm the GitHub validation workflow passes.
 - [ ] Install the plugin from the public repository in a clean Claude profile,
-      complete OAuth, and confirm all seven MCP tools load.
+      complete OAuth, and confirm the `scraperAPI`, `webSearch`, and `status`
+      tools load.
 - [ ] Run the smoke-test prompt below.
 - [ ] Create the matching Git tag and GitHub release for an explicit semantic
       version.
@@ -45,15 +46,15 @@ Keep these values ready for the developer portal:
 
 Suggested summary:
 
-> Connect Claude to MrScraper for raw page fetching, managed structured
-> extraction, Google discovery, and reusable saved scraper workflows. The
-> included skills preserve source responses with a fetch-first workflow before
-> adding backend extraction when it is explicitly requested or clearly useful.
+> Connect Claude to MrScraper to retrieve public web pages as HTML, Markdown,
+> or screenshots, discover sources through Google, and check account usage.
+> The included skills preserve source responses with a retrieve-first workflow
+> and derive structured output locally.
 
-The hosted service receives target URLs and tool inputs, including extraction
-instructions. Results are returned to Claude for the user's requested task. The
-OAuth connection can request `scrape:read`, `scrape:write`, and `account:read`
-access. The plugin contains no static credentials.
+The hosted service receives target URLs and tool inputs, including search
+queries. Results are returned to Claude for the user's requested task. The
+OAuth connection requests `scrape:read` and `account:read` access. The plugin
+contains no static credentials.
 
 Smoke-test prompt:
 

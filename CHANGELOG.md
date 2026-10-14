@@ -3,6 +3,16 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 - 2026-10-14
+
+- Updated the skills for the hosted MCP server's new tools: `scraperAPI`
+  (pages as HTML, Markdown, or screenshots), `webSearch` (Google), and `status`
+  (account usage). The `fetch`, `scrape`, `serp`, `rerun`, `results`, and
+  `result` tools no longer exist.
+- Removed the `mrscraper-scrape` skill; managed extraction, saved reruns, and
+  stored results are available in the MrScraper dashboard.
+- Pinned OAuth to the `scrape:read` and `account:read` scopes the tools use.
+
 ## 0.1.4 - 2026-10-02
 
 - Passed `acknowledged=true` on manual reruns after the user accepts the
