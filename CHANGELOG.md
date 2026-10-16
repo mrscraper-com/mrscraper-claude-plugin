@@ -3,6 +3,13 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 - 2026-10-16
+
+- Added the plugin icon and privacy policy URL to `plugin.json` for the Claude
+  directory listing.
+- Updated continuous validation to Claude Code 2.1.296, which recognizes those
+  fields.
+
 ## 0.2.0 - 2026-10-14
 
 - Updated the skills for the hosted MCP server's new tools: `scraperAPI`
