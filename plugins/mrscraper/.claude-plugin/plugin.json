@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mrscraper",
   "displayName": "MrScraper",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Connect Claude to MrScraper to retrieve web pages as HTML, Markdown, or screenshots, discover pages through Google, and check account usage.",
   "author": {
     "name": "MrScraper",
@@ -10,8 +10,10 @@
     "url": "https://mrscraper.com"
   },
   "homepage": "https://docs.mrscraper.com/docs/getting-started/mcp-server",
+  "privacyPolicyUrl": "https://mrscraper.com/privacy-policy",
   "repository": "https://github.com/mrscraper-com/mrscraper-claude-plugin",
   "license": "MIT",
+  "icon": "./assets/mrscraper-plugin-logo.png",
   "keywords": [
     "mrscraper",
     "mcp",
