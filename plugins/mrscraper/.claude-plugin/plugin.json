@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mrscraper",
   "displayName": "MrScraper",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Connect Claude to MrScraper to retrieve web pages as HTML, Markdown, or screenshots, discover pages through Google, and check account usage.",
   "author": {
     "name": "MrScraper",

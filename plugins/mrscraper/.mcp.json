@@ -4,7 +4,7 @@
       "type": "http",
       "url": "https://mcp.mrscraper.com/mcp",
       "oauth": {
-        "scopes": "scrape:read account:read"
+        "scopes": "scrape:read scrape:write account:read"
       }
     }
   }

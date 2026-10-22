@@ -3,6 +3,15 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.2 - 2026-10-22
+
+- Pinned OAuth to the `scrape:read`, `scrape:write`, and `account:read` scopes.
+  The hosted server now requires `scrape:write` for `scraperAPI`. Connections
+  made with 0.2.0 or 0.2.1 hold only `scrape:read` and `account:read`, so
+  `scraperAPI` returns 403 `insufficient_scope` until the connection is
+  authorized again.
+- Updated the `mrscraper` skill to name the scope each tool needs.
+
 ## 0.2.1 - 2026-10-16
 
 - Added the plugin icon and privacy policy URL to `plugin.json` for the Claude
