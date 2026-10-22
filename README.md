@@ -10,8 +10,8 @@ workflow and preserve raw page content.
 - The hosted Streamable HTTP endpoint at `https://mcp.mrscraper.com/mcp`.
 - OAuth 2.1 authentication through Claude; no credential is stored in this
   repository.
-- OAuth access pinned to the `scrape:read` and `account:read` scopes the tools
-  need.
+- OAuth access pinned to the `scrape:read`, `scrape:write`, and `account:read`
+  scopes the tools need.
 - A retrieve-first workflow that keeps raw page responses available for
   analysis, verification, and follow-up transformations.
 
