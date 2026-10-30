@@ -3,6 +3,14 @@
 All notable changes to the MrScraper Claude plugin are documented here. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.3 - 2026-10-30
+
+- Reworded search as web search in the plugin and marketplace descriptions,
+  READMEs, publishing notes, and skills. The `webSearch` tool is unchanged.
+  Skills are identical to the MrScraper Cursor 0.3.2, Grok 0.2.2, Antigravity
+  0.2.2, and OpenCode 0.3.2 plugins again.
+- Added the ClaudePluginHub badge to the README.
+
 ## 0.2.2 - 2026-10-22
 
 - Pinned OAuth to the `scrape:read`, `scrape:write`, and `account:read` scopes.
