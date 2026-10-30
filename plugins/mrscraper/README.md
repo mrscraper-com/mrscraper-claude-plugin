@@ -1,7 +1,7 @@
 # MrScraper
 
 This Claude plugin connects to the hosted MrScraper MCP server and adds focused
-skills for page retrieval as HTML, Markdown, or screenshots, Google discovery,
+skills for page retrieval as HTML, Markdown, or screenshots, web search,
 and account usage.
 
 When a public URL is known, scraperAPI is the normal first content-acquisition

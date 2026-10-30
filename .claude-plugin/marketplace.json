@@ -6,12 +6,12 @@
     "email": "support@mrscraper.com",
     "url": "https://github.com/mrscraper-com"
   },
-  "description": "Retrieve and preserve web pages, discover sources through Google, and check MrScraper account usage from Claude.",
+  "description": "Retrieve and preserve web pages, discover sources through web search, and check MrScraper account usage from Claude.",
   "plugins": [
     {
       "name": "mrscraper",
       "source": "./plugins/mrscraper",
-      "description": "Connect Claude to MrScraper to retrieve web pages as HTML, Markdown, or screenshots, discover pages through Google, and check account usage.",
+      "description": "Connect Claude to MrScraper to retrieve web pages as HTML, Markdown, or screenshots, discover pages through web search, and check account usage.",
       "author": {
         "name": "MrScraper",
         "email": "support@mrscraper.com",

@@ -47,7 +47,7 @@ Keep these values ready for the developer portal:
 Suggested summary:
 
 > Connect Claude to MrScraper to retrieve public web pages as HTML, Markdown,
-> or screenshots, discover sources through Google, and check account usage.
+> or screenshots, discover sources through web search, and check account usage.
 > The included skills preserve source responses with a retrieve-first workflow
 > and derive structured output locally.
 
