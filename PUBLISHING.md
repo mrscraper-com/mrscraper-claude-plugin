@@ -20,8 +20,8 @@ Use this checklist for a public MrScraper Claude plugin release.
 
 - [ ] Confirm the GitHub validation workflow passes.
 - [ ] Install the plugin from the public repository in a clean Claude profile,
-      complete OAuth, and confirm the `scraperAPI`, `webSearch`, and `status`
-      tools load.
+      complete OAuth, and confirm the `status`, `scrapeHtml`, `scrapeMarkdown`,
+      `getScreenshot`, `scrapeBrand`, `scrapeJson`, and `webSearch` tools load.
 - [ ] Run the smoke-test prompt below.
 - [ ] Create the matching Git tag and GitHub release for an explicit semantic
       version.
@@ -53,13 +53,14 @@ Suggested summary:
 
 The hosted service receives target URLs and tool inputs, including search
 queries. Results are returned to Claude for the user's requested task. The
-OAuth connection requests `scrape:read`, `scrape:write`, and `account:read`
-access. The plugin contains no static credentials.
+OAuth connection requests the scopes the server advertises: `scraper:read`
+for the six scraping and search tools and `account:read` for `status`. The
+plugin contains no static credentials.
 
 Smoke-test prompt:
 
 ```text
-Fetch https://www.scrapethissite.com/pages/simple/ and summarize the page.
+Fetch https://www.scrapethissite.com and summarize the page.
 ```
 
 ## Submit to Anthropic
