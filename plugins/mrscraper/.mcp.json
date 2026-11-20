@@ -2,10 +2,7 @@
   "mcpServers": {
     "mrscraper": {
       "type": "http",
-      "url": "https://mcp.mrscraper.com/mcp",
-      "oauth": {
-        "scopes": "scrape:read scrape:write account:read"
-      }
+      "url": "https://mcp.mrscraper.com/mcp"
     }
   }
 }
