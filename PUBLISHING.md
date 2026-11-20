@@ -53,7 +53,7 @@ Suggested summary:
 
 The hosted service receives target URLs and tool inputs, including search
 queries. Results are returned to Claude for the user's requested task. The
-OAuth connection requests the scopes the server advertises: `scraper:read`
+OAuth connection requests the scopes the server advertises: `scrape:read`
 for the six scraping and search tools and `account:read` for `status`. The
 plugin contains no static credentials.
 
