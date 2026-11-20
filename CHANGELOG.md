@@ -14,10 +14,9 @@ project follows [Semantic Versioning](https://semver.org/).
   instead of `url`, `region`, `num_results`, and `timeout`, and all tool
   inputs are camelCase. The README and publishing notes list the seven tools.
 - Removed the OAuth scope pin from `.mcp.json`, so Claude requests the scopes
-  the server advertises: `scraper:read` for the six scraping and search tools
-  and `account:read` for `status`. The server no longer uses `scrape:read` or
-  `scrape:write`; connections authorized with them must be authorized again
-  (`/mcp`).
+  the server advertises: `scrape:read` for the six scraping and search tools
+  and `account:read` for `status`. Connections that already hold `scrape:read`
+  keep working; `scrape:write` is no longer needed.
 - Skills are identical to the MrScraper Cursor 0.5.0, Grok 0.4.0, Antigravity
   0.4.0, and OpenCode 0.5.0 plugins.
 
